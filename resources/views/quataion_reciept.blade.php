@@ -66,7 +66,7 @@ table{
                       <tr>
                         <td>
                           <p>Ref No.</p>
-                          <p><Strong> {{$data[0]->ref_no}}</Strong></p>
+                          <p><Strong> -</Strong></p>
                         </td>
                         <td>
                           <p>Date</p>
@@ -156,7 +156,7 @@ table{
                   <tr>
                     <td>
                       <p>Invoice amount in words</p>
-                      <p><strong>@php echo NumConvert::word($prod_list->final_total - $prod_list->advance); @endphp</strong></p>
+                      <p><strong>@php echo NumConvert::word($final_round ); @endphp</strong></p>
                     </td>
                   </tr>
                   <tr style="height:194px;">
@@ -194,17 +194,14 @@ table{
                         <p><strong>Total</strong></p>
                         <p><strong>₹ {{$prod_list->final_total}}</strong></p>
                       </div>
-                      <div class="d-flex justify-content-between pb-2">
-                        <p>Recieved</p>
-                        <p>₹ {{$prod_list->advance}}</p>
-                      </div>
+                  
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <div class="d-flex justify-content-between pb-2">
                         <p>Balance</p>
-                        <p>₹ {{$prod_list->final_total - $prod_list->advance}}</p>
+                        <p>₹ {{$prod_list->final_total}}</p>
                       </div>
                     </td>
                   </tr>

@@ -31,7 +31,7 @@
                   </div>
                   <div class="inner">
                     <p>Customer</p>
-                    <h3>150</h3>
+                    <h3>{{$customer[0]->total_customer}}</h3>
                   </div>
                 </div>
               </div>
@@ -44,7 +44,7 @@
                   </div>
                   <div class="inner">
                     <p>Supplier</p>
-                    <h3>148</h3>
+                    <h3>{{$supplier[0]->total_supplier}}</h3>
                   </div>
                 </div>
               </div>
@@ -57,7 +57,7 @@
                   </div>
                   <div class="inner">
                     <p>Purchase</p>
-                    <h3>845</h3>
+                    <h3>{{ number_format($total_purchase[0]->total_purchase)}}</h3>
                   </div>
                 </div>
               </div>
@@ -70,7 +70,7 @@
                   </div>
                   <div class="inner">
                     <p>Sale</p>
-                    <h3>47859</h3>
+                    <h3>{{number_format($total_sale[0]->total_sale)}}</h3>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                   </div>
                   <div class="inner">
                     <p>Expense</p>
-                    <h3>4445</h3>
+                    <h3>{{number_format($total_expense[0]->total_expense)}}</h3>
                   </div>
                 </div>
               </div>
@@ -96,7 +96,7 @@
                   </div>
                   <div class="inner">
                     <p>Employee</p>
-                    <h3>1478</h3>
+                    <h3>{{$total_employee[0]->total_employee}}</h3>
                   </div>
                 </div>
               </div>
@@ -109,7 +109,7 @@
                   </div>
                   <div class="inner">
                     <p>Salary</p>
-                    <h3>10,000</h3>
+                    <h3>{{number_format($total_salary[0]->total_salary)}}</h3>
                   </div>
                 </div>
               </div>
@@ -121,7 +121,7 @@
                   <i class="lab la-gg"></i>
                   </div>
                   <div class="inner">
-                    <p>Balance</p>
+                    <p>Site vistors</p>
                     <h3>7856</h3>
                   </div>
                 </div>

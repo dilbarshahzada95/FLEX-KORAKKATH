@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Purchase</h1>
+            <h1>Sales</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Purchase</li>
+              <li class="breadcrumb-item active">Sales</li>
             </ol>
           </div>
         </div>
@@ -26,23 +26,24 @@
         <div class="container-fluid">
             <div class="card">
             <div class="card-body">
-
+                 @if(session()->has('message'))
+                 <div class="alert alert-success" role="alert">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
                     <div class="row" x-data="handler()">
-
-          
                     <div class="col-md-4">
                      <div class="form-group">
-                                    <label>Supplier Name</label>
+                                    <label>Customer Name</label>
                                     <select class="form-control select2bs4" style="width: 100%;" id="contact_id">
                                       <option value="">Select</option>
-                                      @foreach($data as $supplier)
-                                      <option value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                        @foreach($data as $customer)
+                                      <option value="{{$customer->id}}">{{$customer->name}}</option>
                                       @endforeach
-                                    </select>
                                     </select>
                                   </div>
                     </div>
-                          <div class="col-md-4">
+                            <div class="col-md-4">
                             <div class="form-group">
                               <label for="exampleInputEmail1">Date From</label>
                               <input type="date" class="form-control" id="datefrom"  placeholder="Date From">
@@ -61,13 +62,13 @@
                       <button class="btn btn-danger">Cancel</button>
                     </div>
               <div class="card-body">
-                <table id="purchase" class="table table-bordered table-striped">
+                <table  class="table table-bordered table-striped" id="sales">
                   <thead>
                   <tr>
                     <th>SN. No.</th>
                     <th>Transaction Date</th>
-                    <th>Ref. No.</th>
-                    <th>Dealer Name</th>
+                    <th>Invoice No</th>
+                    <th>Customer Name</th>
                     <th>Total Amount</th>
                     <th>Advance</th>
                     <th>Action</th>
@@ -75,7 +76,6 @@
                   </thead>
                   <tbody>
                   </tbody>
-               
                 </table>
               </div>
             </div>
@@ -85,8 +85,10 @@
     <!-- /.content -->
 
 
- @endsection
+  </div>
+
+    @endsection
   @section('script')
 
-  <script src="{{ asset('js/purchase.js') }}"></script>
+  <script src="{{ asset('js/sales.js') }}"></script>
   @endsection

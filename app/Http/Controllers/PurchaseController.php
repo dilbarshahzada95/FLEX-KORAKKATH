@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ContactsModel;
 use App\Transaction;
 use App\purchaseLine_model;
+use App\TransactionPayment;
 use DB;
 use session;
 class PurchaseController extends Controller
@@ -32,26 +33,41 @@ class PurchaseController extends Controller
         $data=ContactsModel::latest()->where('type','supplier')->get();
         return view('manage-purchase',compact('data'));
     }
-    function purchase_data(){
+    function purchase_data(Request $request){
+        $d_from=$request->datefrom;
+        $d_to=$request->dateto;
          $result = array('data' => array());
-         $data['data']=DB::table('transaction')
-                   ->join('contacts','contacts.id','=','transaction.contact_id') 
-                   ->select('transaction.*','contacts.name') 
-                   ->get();  
-                  // var_dump(json_decode($data));
+         $purchase=Transaction::select('transaction.*','contacts.name as contacts_name')
+                            ->leftjoin('contacts','contacts.id','=','transaction.contact_id')
+                            ->where('transaction.type','=','purchase');  
+        if(!empty($d_from)){
+         $datefrom=date('Y-m-d',strtotime($d_from));
+         $purchase->whereDate('transaction.transaction_date', '>=', $datefrom);
+               
+        }
+        if(!empty($d_to)){
+             $dateto=date('Y-m-d',strtotime($d_to));
+            $purchase->whereDate('transaction.transaction_date', '<=', $dateto); 
+        }
+        if(!empty($request->contact_id)){
+            $purchase->where('contacts.id', $request->contact_id);
+        }
+        $data=$purchase->get();
+         // var_dump(json_decode($data));
+                            // dd(DB::getQueryLog());
          $i=1;
          foreach ($data as $key => $value) {
             $button='';
             $button='<td>
                       <a href="'.url('edit/'.$value['id']).'" type="button" class="btn bg-gradient-info btn-sm" >Edit</a>
                       <a type="button" class="btn bg-gradient-danger btn-sm" data-id="'.$value['id'].'" id="delete">Delete</a>
-                      <a type="button" href="'.url('Pdf/'.$value['id'].'/'.'PURCHASE').'" target="_blank" class="btn bg-gradient-blue btn-sm">Pdf</a>
+                      <a type="button" href="'.url('Pdf/'.$value['id']).'" target="_blank" class="btn bg-gradient-blue btn-sm">Pdf</a>
                       </td>';
                 $result['data'][$key] = array(
                 $i,
                 $value['transaction_date'],
                 $value['ref_no'],
-                $value['contact_id'],
+                $value['contacts_name'],
                 $value['final_total'],
                 $value['advance'],
                 $button,
@@ -78,8 +94,25 @@ class PurchaseController extends Controller
                                );
         $purchase_data=purchaseLine_model::create($purchaseLine);
         }
+        $payment=array('transaction_id'=>$purchase->id,
+                        'amount'=> $request->final_total,
+                        'payment_type'=>'debit',
+                        'payment_for'=>$request->contact_id,
+                        'payment_date'=>$request->transaction_date
+                         );
+        $TransactionPayment=TransactionPayment::create($payment);
+        if($request->advance > 0){
+        $creditpayment=array('transaction_id'=>$purchase->id,
+                        'amount'=> $request->advance,
+                        'payment_type'=>'credit',
+                        'payment_for'=>$request->contact_id,
+                        'payment_date'=>$request->transaction_date
+                         );
+        $TransactionPayment=TransactionPayment::create($creditpayment);
+        }
         
-        return redirect()->back()->with('message','Successfully Submited');
+        
+        return redirect('manage_purchase')->with('message','Successfully Submited');
     }
     function  delete_transactions($id){
         $delete = Transaction::find($id); 
@@ -129,6 +162,25 @@ class PurchaseController extends Controller
                                );
         $purchase_data=purchaseLine_model::create($purchaseLine);
         }
+        $delete_payment = TransactionPayment::where('transaction_id','=',$id); 
+        $delete_payment->delete();
+        $payment=array('transaction_id'=>$id,
+                        'amount'=> $request->final_total,
+                        'payment_type'=>'debit',
+                        'payment_for'=>$request->contact_id,
+                        'payment_date'=>$request->transaction_date
+                         );
+        $TransactionPayment=TransactionPayment::create($payment);
+        if($request->advance > 0){
+            $creditpayment=array('transaction_id'=>$id,
+                        'amount'=> $request->advance,
+                        'payment_type'=>'credit',
+                        'payment_for'=>$request->contact_id,
+                        'payment_date'=>$request->transaction_date
+                         );
+        $TransactionPayment=TransactionPayment::create($creditpayment);
+        }
+        
         $request->session()->flash('success','Successfully updated');
         return redirect('manage_purchase');
     }

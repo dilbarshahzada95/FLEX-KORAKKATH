@@ -31,7 +31,7 @@ table{
     </style>
   </head>
   <body class="mt-5 mb-5" onload="window.print();">
-      <h5 class="text-center">{{$data[0]->purchase_type}}</h5>
+      <h5 class="text-center">{{$sale_pdf[0]->sell_type}}</h5>
       <div class="container">
           <div class="row">
               <div class="col-md-6 p-0">
@@ -51,9 +51,9 @@ table{
                       <tr style="height: 243px;"> 
                         <td>Bill To<br>
                        
-                        <strong>{{$data[0]->name}}</strong>
-                        <p>{{$data[0]->address}}</p>
-                        <p>Contact No, : {{$data[0]->mobile}}</p>
+                        <strong>{{$sale_pdf[0]->name}}</strong>
+                        <p>{{$sale_pdf[0]->address}}</p>
+                        <p>Contact No, : {{$sale_pdf[0]->mobile}}</p>
                         
                         </td>
                       </tr>
@@ -66,11 +66,11 @@ table{
                       <tr>
                         <td>
                           <p>Ref No.</p>
-                          <p><Strong> {{$data[0]->ref_no}}</Strong></p>
+                          <p><Strong> {{$sale_pdf[0]->ref_no}}</Strong></p>
                         </td>
                         <td>
                           <p>Date</p>
-                          <p><Strong>{{$data[0]->transaction_date}}</Strong></p>
+                          <p><Strong>{{$sale_pdf[0]->transaction_date}}</Strong></p>
                         </td>
                       </tr>
                       <tr>
@@ -131,15 +131,15 @@ table{
                     $i=1;
                     $subtotal=0;
                     @endphp
-                    @foreach($data as $prod_list)
+                    @foreach($sale_pdf as $prod_list)
 
                     
                     <tr>
                       <th>{{$i}}</th>
                       <td>{{$prod_list->product_name}}</td>
                       <td>{{$prod_list->quantity}}</td>
-                      <td>{{$prod_list->purchase_price}}</td>
-                      <td>{{$prod_list->purchase_price * $prod_list->quantity}}</td>
+                      <td>{{$prod_list->sell_price}}</td>
+                      <td>{{$prod_list->sell_price * $prod_list->quantity}}</td>
                       
                     </tr>
                   @php

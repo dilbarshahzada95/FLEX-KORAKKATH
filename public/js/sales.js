@@ -1,25 +1,25 @@
 function addNewField(val) {
  if(val){
  
-            var id = $("#purchase_form_table tbody  tr:last input[name=row_count]").val();
+            var id = $("#sales_form_table tbody  tr:last input[name=row_count]").val();
             
             if (id == undefined) {
                 var r_count = 1;
             } else {
                 var r_count = parseInt(id) + 1;
-              
+                
             }
             var html = '';
-            html='<tr class="var_row">'+'<td><div class="form-group"><input  type="text" name="purchase['+r_count+'][product_name]" class="form-control"  placeholder="Item" required></div></td>';
-            html+=' <td><div class="form-group"><input  type="number" id="total_qty_'+r_count+'" name="purchase['+r_count+'][quantity]" class="form-control product_quantity"  value="0.00" required></div></td>';  
-            html+='<td><div class="form-group"><input  type="number" id="total_prchase_price_'+r_count+'" name="purchase['+r_count+'][purchase_price]" class="form-control purchase_price"  value="0.00" required> </div></td>' ;            
-              html+='<td><div class="form-group"><input  type="text"  name="purchase['+r_count+'][final_purchase_price]" class="form-control final_purchase_price"  placeholder="0.00" disabled></div></td><td> <a type="button" class="btn bg-gradient-danger btn-sm" onclick="removeField(this)"><i class="las la-trash"></i></a><input type="hidden" name="row_count"  value="' + r_count + '"></td></tr>';
-            var count_table_tbody_tr = $("#purchase_form_table tbody tr").length;
+            html='<tr class="var_row">'+'<td><div class="form-group"><input  type="text" name="sell['+r_count+'][product_name]" class="form-control"  placeholder="Item" required></div></td>';
+            html+=' <td><div class="form-group"><input  type="number" id="total_qty_'+r_count+'" name="sell['+r_count+'][quantity]" class="form-control product_quantity"  value="0.00" required></div></td>';  
+            html+='<td><div class="form-group"><input  type="number" id="total_prchase_price_'+r_count+'" name="sell['+r_count+'][sell_price]" class="form-control sell_price"  value="0.00" required> </div></td>' ;            
+              html+='<td><div class="form-group"><input  type="text"  name="sell['+r_count+'][final_sell_price]" class="form-control final_sell_price"  placeholder="0.00" disabled></div></td><td> <a type="button" class="btn bg-gradient-danger btn-sm" onclick="removeField(this)"><i class="las la-trash"></i></a><input type="hidden" name="row_count"  value="' + r_count + '"></td></tr>';
+            var count_table_tbody_tr = $("#sales_form_table tbody tr").length;
                     if (count_table_tbody_tr >= 1) {
-                        $("#purchase_form_table tbody tr:last").after(html);
+                        $("#sales_form_table tbody tr:last").after(html);
                     } else {
     
-                        $("#purchase_form_table tbody").html(html);
+                        $("#sales_form_table tbody").html(html);
                     }
           }
  }
@@ -27,7 +27,7 @@ function addNewField(val) {
  function removeField(val) {
   $(val).closest('.var_row').remove();
   var total_amount = 0;
-  $(".final_purchase_price").each(function () {
+  $(".final_sell_price").each(function () {
   total_amount += +$(this).val();
   });
   total_amount = total_amount.toFixed(2);
@@ -39,12 +39,12 @@ function addNewField(val) {
   $(document).on('change', 'input.product_quantity', function (e) {
   var qty = $(this).val();
   var tr_obj = $(this).closest('tr');
-  var product_price = tr_obj.find('input.purchase_price').val();
+  var product_price = tr_obj.find('input.sell_price').val();
   var total = 0, total_amount = 0;
   total = (parseFloat(product_price) * parseInt(qty));
   total = total.toFixed(2);
-  tr_obj.find('.final_purchase_price').val(total);
-  $(".final_purchase_price").each(function () {
+  tr_obj.find('.final_sell_price').val(total);
+  $(".final_sell_price").each(function () {
       total_amount += +$(this).val();
   });
   total_amount = total_amount.toFixed(2);
@@ -54,15 +54,15 @@ function addNewField(val) {
   });
   // end calculation by qty
   // calculation by purchase price
-  $(document).on('change', 'input.purchase_price', function (e) {
+  $(document).on('change', 'input.sell_price', function (e) {
   var product_price = $(this).val();
   var tr_obj = $(this).closest('tr');
   var qty = tr_obj.find('input.product_quantity').val();
   var total = 0, total_amount = 0;
   total = (parseFloat(product_price) * parseInt(qty));
   total = total.toFixed(2);
-  tr_obj.find('.final_purchase_price').val(total);
-  $(".final_purchase_price").each(function () {
+  tr_obj.find('.final_sell_price').val(total);
+  $(".final_sell_price").each(function () {
       total_amount += +$(this).val();
   });
   total_amount = total_amount.toFixed(2);
@@ -83,7 +83,7 @@ function addNewField(val) {
   }
   });
   });
-// end form validation
+// // end form validation
 
 $( document ).ready(function() {
     report();
@@ -92,11 +92,11 @@ $( document ).ready(function() {
     var contact_id=$("#contact_id").val();
     var datefrom=$("#datefrom").val();
     var dateto=$("#dateto").val();
-    var manageTable = $('#purchase').DataTable();
+    var manageTable = $('#sales').DataTable();
     manageTable.destroy();
-    manageTable= $("#purchase").DataTable({
+    manageTable= $("#sales").DataTable({
       "ajax": {
-                "url": 'purchase_data',
+                "url": 'sales_data',
                 'type': "GET",
                 'data':{contact_id:contact_id,datefrom:datefrom,dateto:dateto},
                },  
@@ -141,10 +141,9 @@ $( document ).ready(function() {
 }
 
 $(document).on('click', '#delete', function (e) {
-
     e.preventDefault();
     var id = $(this).data('id');
-    
+    // alert(id);
         swal({
           title: "Are you sure?",
           icon: "warning",
@@ -179,25 +178,25 @@ function editAddNewField(val) {
    
  if(val){
  
-            var id = $("#edit_purchase_form_table tbody  tr:last input[name=row_count]").val();
+            var id = $("#edit_sales_form_table tbody  tr:last input[name=row_count]").val();
             
             if (id == undefined) {
                 var r_count = 1;
             } else {
                 var r_count = parseInt(id) + 1;
-              
+                
             }
             var html = '';
-            html='<tr class="var_row">'+'<td><div class="form-group"><input  type="text" name="purchase['+r_count+'][product_name]" class="form-control"  placeholder="Item" required></div></td>';
-            html+=' <td><div class="form-group"><input  type="number" id="total_qty_'+r_count+'" name="purchase['+r_count+'][quantity]" class="form-control product_quantity"  value="0.00" required></div></td>';  
-            html+='<td><div class="form-group"><input  type="number" id="total_prchase_price_'+r_count+'" name="purchase['+r_count+'][purchase_price]" class="form-control purchase_price"  value="0.00" required> </div></td>' ;            
-              html+='<td><div class="form-group"><input  type="text"  name="purchase['+r_count+'][final_purchase_price]" class="form-control final_purchase_price"  placeholder="0.00" disabled></div></td><td> <a type="button" class="btn bg-gradient-danger btn-sm" onclick="removeField(this)"><i class="las la-trash"></i></a><input type="hidden" name="row_count"  value="' + r_count + '"></td></tr>';
-            var count_table_tbody_tr = $("#edit_purchase_form_table tbody tr").length;
+             html='<tr class="var_row">'+'<td><div class="form-group"><input  type="text" name="sell['+r_count+'][product_name]" class="form-control"  placeholder="Item" required></div></td>';
+            html+=' <td><div class="form-group"><input  type="number" id="total_qty_'+r_count+'" name="sell['+r_count+'][quantity]" class="form-control product_quantity"  value="0.00" required></div></td>';  
+            html+='<td><div class="form-group"><input  type="number" id="total_prchase_price_'+r_count+'" name="sell['+r_count+'][sell_price]" class="form-control sell_price"  value="0.00" required> </div></td>' ;            
+              html+='<td><div class="form-group"><input  type="text"  name="sell['+r_count+'][final_sell_price]" class="form-control final_sell_price"  placeholder="0.00" disabled></div></td><td> <a type="button" class="btn bg-gradient-danger btn-sm" onclick="removeField(this)"><i class="las la-trash"></i></a><input type="hidden" name="row_count"  value="' + r_count + '"></td></tr>';
+            var count_table_tbody_tr = $("#edit_sales_form_table tbody tr").length;
                     if (count_table_tbody_tr >= 1) {
-                        $("#edit_purchase_form_table tbody tr:last").after(html);
+                        $("#edit_sales_form_table tbody tr:last").after(html);
                     } else {
     
-                        $("#edit_purchase_form_table tbody").html(html);
+                        $("#edit_sales_form_table tbody").html(html);
                     }
           }
  }

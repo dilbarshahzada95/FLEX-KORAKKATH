@@ -72,7 +72,12 @@
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item"><i class="las la-power-off"></i> Log Out</a>
+          <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="dropdown-item"><i class="las la-power-off"></i> Log Out</a>
+           <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
         </div>
       </li>
     </ul>
@@ -86,7 +91,7 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <!-- <img src="assets/img/logo.PNG" class="w-100" alt="User Image"> -->
-          <h1>Flex-Korakkath</h1>
+         <a href="{{url('dashboard')}}"> <h1>Flex-Korakkath</h1></a>
         </div>
       </div>
 
@@ -96,7 +101,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="index.php" class="nav-link active">
+            <a href="{{url('dashboard')}}" class="nav-link active">
               <i class="nav-icon las la-align-left"></i>
               <p>
                 Dashboard
@@ -164,13 +169,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="add-sales.php" class="nav-link">
+                <a href="{{route('add-sales')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Add Sales</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="sales.php" class="nav-link">
+                <a href="{{route('sales.index')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Manage Sales</p>
                 </a>
@@ -179,13 +184,13 @@
           </li>
 
           <li class="nav-item">
-            <a href="payments.php" class="nav-link">
+            <a href="{{route('payment.index')}}" class="nav-link">
               <i class="nav-icon las la-money-check"></i>
               <p>Payments</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="ledger.php" class="nav-link">
+            <a href="{{route('ledger.index')}}" class="nav-link">
               <i class="nav-icon las la-book"></i>
               <p>Ledger</p>
             </a>
@@ -202,19 +207,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="add-expense.php" class="nav-link">
+                <a href="{{route('expense.index')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Add Expense</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="expense.php" class="nav-link">
+                <a href="{{url('manage_expense')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Manage Expense</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="expense-category.php" class="nav-link">
+                <a href="{{route('expense-category.index')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Expense Category</p>
                 </a>
@@ -234,13 +239,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="add-quotation.php" class="nav-link">
+                <a href="{{route('quotation.index')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Add Quotation</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="quotation.php" class="nav-link">
+                <a href="{{url('manage_quottaion')}}" class="nav-link">
                   <i class="las la-grip-lines nav-icon"></i>
                   <p>Manage Quotation</p>
                 </a>
@@ -249,13 +254,13 @@
           </li>
 
           <li class="nav-item">
-            <a href="employee.php" class="nav-link">
+            <a href="{{route('employee.index')}}" class="nav-link">
               <i class="nav-icon las la-user-tie"></i>
               <p>Employee</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="salary.php" class="nav-link">
+            <a href="{{url('salary')}}" class="nav-link">
               <i class="nav-icon las la-rupee-sign"></i>
               <p>Salary</p>
             </a>
@@ -475,94 +480,8 @@
 </script>
 
 
-<script>
-    // Get the modal
-var modal = document.getElementById('myModal');
 
-// Get the image and insert it inside the modal - use its "alt" text as a caption
-var img = document.getElementById('myImg');
-var modalImg = document.getElementById("img01");
-var captionText = document.getElementById("caption");
-img.onclick = function(){
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    modalImg.alt = this.alt;
-    captionText.innerHTML = this.alt;
-}
-
-
-// When the user clicks on <span> (x), close the modal
-modal.onclick = function() {
-    img01.className += " out";
-    setTimeout(function() {
-       modal.style.display = "none";
-       img01.className = "modal-content";
-     }, 400);
-    
- }
-</script>
   
-<!-- Page specific script -->
-<script>
-  $(function () {
-    //-------------
-    //- DONUT CHART -
-    //-------------
-    // Get context with jQuery - using jQuery's .get() method.
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-      labels: [
-          'Flex Korakkath',
-      ],
-      datasets: [
-        {
-          data: [700,500],
-          backgroundColor : ['#007be8', '#ffcc56'],
-        }
-      ]
-    }
-    var donutOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(donutChartCanvas, {
-      type: 'pie',
-      data: donutData,
-      options: donutOptions
-    })
-
-   //-------------
-    //- BAR CHART -
-    //-------------
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = $.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-    var temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
- 
-    
-    new Chart(stackedBarChartCanvas, {
-      type: 'bar',
-      data: stackedBarChartData,
-      options: stackedBarChartOptions
-    })
-  })
-</script>
 
 
 </body>

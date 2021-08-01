@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Edit Purchase</h1>
+            <h1>Edit Quotation</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Edit Purchase</li>
+              <li class="breadcrumb-item active">Edit Quotation</li>
             </ol>
           </div>
         </div>
@@ -28,19 +28,14 @@
             @if(Session::has('message'))
             <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
-              <form id="add_purchase_form" action="{{url('update',$purchase_data->id)}}" method="post" enctype="multipart/form-data">
+              <form id="add_purchase_form" action="{{url('update_quotation',$purchase_data->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row" x-data="handler()">
-                    <div class="col-md-4">
-                            <div class="form-group">
-                              <label for="exampleInputEmail1">Ref No.</label>
-                              <input type="text" class="form-control" name="ref_no" placeholder="Ref. No." value="{{$purchase_data->ref_no}}" disabled="">
-                            </div>
-                          </div>
+            
                     <div class="col-md-4">
                     <div class="form-group">
-                                    <label>Dealer Name</label>
+                                    <label>Customer Name</label>
                                     <select class="form-control select2bs4" style="width: 100%;" name="contact_id" required="">
                                       <option value="">Select</option>
                                       @foreach($data as $supplier)
@@ -52,11 +47,11 @@
                           <div class="col-md-4">
                             <div class="form-group">
                               <label for="exampleInputEmail1">Date</label>
-                              <input type="date" class="form-control" name="transaction_date" placeholder="date" required="" value="{{$purchase_data->transaction_date}}">
+                              <input type="date" class="form-control" name="transaction_date" value="{{$purchase_data->transaction_date}}" placeholder="date" required="">
                             </div>
                           </div>
 
-                        <table class="table table-bordered table-striped" id="edit_purchase_form_table">
+                        <table class="table table-bordered table-striped" id="edit_quotation_form_table">
                             <thead class="thead-theme">
                              <tr>
                                <th>Item</th>
@@ -67,7 +62,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              @php
+                               @php
                               $i=1;
                               @endphp
                               @foreach($purchaseLine_data as $purchaseLine_datas)
@@ -89,18 +84,13 @@
                             </tfoot>
                           </table>
                           <div class="col-md-4">
-                            <div class="form-group">
+                           <div class="form-group">
                               <label for="exampleInputEmail1">Net Total Amount</label>
                               <input type="text" class="form-control" id="final_total1" placeholder="final amount"  disabled="" value="{{$purchase_data->final_total}}">
                               <input type="hidden" class="form-control" value="{{$purchase_data->final_total}}" id="final_total" name="final_total">
                             </div>
                           </div>
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <label for="exampleInputEmail1">Advance</label>
-                              <input type="text" class="form-control" value="{{$purchase_data->advance}}" name="advance" placeholder="Advance">
-                            </div>
-                          </div>
+                   
                     </div>
                 </div>
                     <div class="card-footer pt-0 mb-5">
@@ -119,7 +109,7 @@
   @endsection
   @section('script')
   <script src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'></script>
-  <script src="{{ asset('js/purchase.js') }}"></script>
+  <script src="{{ asset('js/quotaion.js') }}"></script>
   @endsection
 
 
@@ -132,5 +122,3 @@
 
 
 
-</body>
-</html>

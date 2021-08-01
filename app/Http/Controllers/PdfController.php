@@ -15,19 +15,43 @@ class PdfController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function pdf($id,$type)
+    public function pdf($id)
     {
         $data=DB::table('transaction')
-                  ->select('transaction.*','transaction_purchase.product_name','transaction_purchase.quantity','transaction_purchase.purchase_price','contacts.*')  
+                  ->select('transaction.*','transaction_purchase.product_name','transaction_purchase.quantity','transaction_purchase.purchase_price','contacts.*','transaction.type as purchase_type')  
                   ->leftjoin('transaction_purchase','transaction_purchase.transaction_id','=','transaction.id')  
                   ->leftjoin('contacts','contacts.id','=','transaction.contact_id') 
+                  ->where('transaction.type','purchase')
+                  ->where('transaction.id',$id)
                   ->get();  
-                // var_dump($data->name);
-                  $pdf = PDF::loadView('reciept', compact('data','type'));
-                    return $pdf->download('invoice.pdf');
-        // return view('reciept',compact('data','type'));
+             
+        return view('reciept',compact('data'));
     }
-
+    public function sale_Pdf($id)
+    {
+        $sale_pdf=DB::table('transaction')
+                  ->select('transaction.*','transaction_sales.product_name','transaction_sales.quantity','transaction_sales.sell_price','contacts.*','transaction.type as sell_type')  
+                  ->leftjoin('transaction_sales','transaction_sales.transaction_id','=','transaction.id')  
+                  ->leftjoin('contacts','contacts.id','=','transaction.contact_id') 
+                  ->where('transaction.type','sell')
+                  ->where('transaction.id',$id)
+                  ->get();  
+             
+        return view('sale-reciept',compact('sale_pdf'));
+    }
+    public function quatation_Pdf($id)
+    {
+        $data=DB::table('transaction')
+                  ->select('transaction.*','quotation.product_name','quotation.quantity','quotation.purchase_price','contacts.*','transaction.type as purchase_type')  
+                  ->leftjoin('quotation','quotation.transaction_id','=','transaction.id')  
+                  ->leftjoin('contacts','contacts.id','=','transaction.contact_id') 
+                  ->where('transaction.type','quotation')
+                  ->where('transaction.id',$id)
+                  ->get();   
+                  // var_dump($data);die;
+        $final_round=round($data[0]->final_total);
+        return view('quataion_reciept',compact('data','final_round'));
+    }
     /**
      * Show the form for creating a new resource.
      *

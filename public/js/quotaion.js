@@ -1,7 +1,7 @@
 function addNewField(val) {
  if(val){
  
-            var id = $("#purchase_form_table tbody  tr:last input[name=row_count]").val();
+            var id = $("#quotation_form_table tbody  tr:last input[name=row_count]").val();
             
             if (id == undefined) {
                 var r_count = 1;
@@ -14,16 +14,17 @@ function addNewField(val) {
             html+=' <td><div class="form-group"><input  type="number" id="total_qty_'+r_count+'" name="purchase['+r_count+'][quantity]" class="form-control product_quantity"  value="0.00" required></div></td>';  
             html+='<td><div class="form-group"><input  type="number" id="total_prchase_price_'+r_count+'" name="purchase['+r_count+'][purchase_price]" class="form-control purchase_price"  value="0.00" required> </div></td>' ;            
               html+='<td><div class="form-group"><input  type="text"  name="purchase['+r_count+'][final_purchase_price]" class="form-control final_purchase_price"  placeholder="0.00" disabled></div></td><td> <a type="button" class="btn bg-gradient-danger btn-sm" onclick="removeField(this)"><i class="las la-trash"></i></a><input type="hidden" name="row_count"  value="' + r_count + '"></td></tr>';
-            var count_table_tbody_tr = $("#purchase_form_table tbody tr").length;
+            var count_table_tbody_tr = $("#quotation_form_table tbody tr").length;
                     if (count_table_tbody_tr >= 1) {
-                        $("#purchase_form_table tbody tr:last").after(html);
+                        $("#quotation_form_table tbody tr:last").after(html);
                     } else {
     
-                        $("#purchase_form_table tbody").html(html);
+                        $("#quotation_form_table tbody").html(html);
                     }
           }
  }
- // Rmove row
+
+  // Rmove row
  function removeField(val) {
   $(val).closest('.var_row').remove();
   var total_amount = 0;
@@ -85,6 +86,7 @@ function addNewField(val) {
   });
 // end form validation
 
+
 $( document ).ready(function() {
     report();
   });
@@ -92,11 +94,11 @@ $( document ).ready(function() {
     var contact_id=$("#contact_id").val();
     var datefrom=$("#datefrom").val();
     var dateto=$("#dateto").val();
-    var manageTable = $('#purchase').DataTable();
+    var manageTable = $('#quotation_table').DataTable();
     manageTable.destroy();
-    manageTable= $("#purchase").DataTable({
+    manageTable= $("#quotation_table").DataTable({
       "ajax": {
-                "url": 'purchase_data',
+                "url": 'quotaton_data',
                 'type': "GET",
                 'data':{contact_id:contact_id,datefrom:datefrom,dateto:dateto},
                },  
@@ -139,7 +141,6 @@ $( document ).ready(function() {
                 }],
       });
 }
-
 $(document).on('click', '#delete', function (e) {
 
     e.preventDefault();
@@ -179,7 +180,7 @@ function editAddNewField(val) {
    
  if(val){
  
-            var id = $("#edit_purchase_form_table tbody  tr:last input[name=row_count]").val();
+            var id = $("#edit_quotation_form_table tbody  tr:last input[name=row_count]").val();
             
             if (id == undefined) {
                 var r_count = 1;
@@ -192,13 +193,12 @@ function editAddNewField(val) {
             html+=' <td><div class="form-group"><input  type="number" id="total_qty_'+r_count+'" name="purchase['+r_count+'][quantity]" class="form-control product_quantity"  value="0.00" required></div></td>';  
             html+='<td><div class="form-group"><input  type="number" id="total_prchase_price_'+r_count+'" name="purchase['+r_count+'][purchase_price]" class="form-control purchase_price"  value="0.00" required> </div></td>' ;            
               html+='<td><div class="form-group"><input  type="text"  name="purchase['+r_count+'][final_purchase_price]" class="form-control final_purchase_price"  placeholder="0.00" disabled></div></td><td> <a type="button" class="btn bg-gradient-danger btn-sm" onclick="removeField(this)"><i class="las la-trash"></i></a><input type="hidden" name="row_count"  value="' + r_count + '"></td></tr>';
-            var count_table_tbody_tr = $("#edit_purchase_form_table tbody tr").length;
+            var count_table_tbody_tr = $("#edit_quotation_form_table tbody tr").length;
                     if (count_table_tbody_tr >= 1) {
-                        $("#edit_purchase_form_table tbody tr:last").after(html);
+                        $("#edit_quotation_form_table tbody tr:last").after(html);
                     } else {
     
-                        $("#edit_purchase_form_table tbody").html(html);
+                        $("#edit_quotation_form_table tbody").html(html);
                     }
           }
  }
-

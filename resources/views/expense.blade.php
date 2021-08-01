@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add Expense</h1>
+            <h1>Expense</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Add Expense</li>
+              <li class="breadcrumb-item active">Expense</li>
             </ol>
           </div>
         </div>
@@ -26,19 +26,12 @@
       <div class="container-fluid">
         <div class="card">
         <div class="card-body" style="box-shadow: none;">
-                                      <form action="{{route('expense.store')}}" method="post" enctype="multipart/form-data">
-                                        @csrf
+                                  
                                         <div class="card-body row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                    <label>Date</label>
-                                    <input type="date" class="form-control" name="transaction_date" required="" placeholder="DOB">
-                                  </div>
-                                            </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
                                     <label>Expense Category</label>
-                                    <select class="form-control select2bs4" style="width: 100%;" name="category_id" required="">
+                                <select class="form-control select2bs4" style="width: 100%;" id="category_id" >
                                       <option value="">Select</option>
                                       @foreach($data as $dat)
                                       <option value="{{$dat->id}}">{{$dat->name}}</option>
@@ -49,26 +42,40 @@
                                             
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                    <label>Expense For</label>
-                                    <input type="text" class="form-control" name="expense_for" placeholder="Expense For">
+                                    <label>Date From</label>
+                                    <input type="date" class="form-control" id="datefrom" >
                                   </div>
                                             </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                    <label>Amount</label>
-                                    <input type="number" class="form-control" required="" name="amount" placeholder="Amount">
+                                    <label>Date To</label>
+                                    <input type="date" class="form-control" id="dateto" >
                                   </div>
                                             </div>
-                              
                                             </div>
 
                                         <div class="card-footer pt-0">
-                                          <button type="submit" class="btn btn-primary">Submit</button>
+                                          <button onclick="report();" class="btn btn-primary">Submit</button>
                                        
                                         </div>
-                                      </form>
+                                   
                                     </div>
-
+            <div class="card-body">
+            <table id="expense_table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>SI No.</th>
+                  <th>Date</th>
+                  <th>Expense Category</th>
+                  <th>Expense For</th>
+                  <th>Amount</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+            </tbody>
+              </table>
+            </div>
 
                 
                
@@ -87,5 +94,8 @@
     <!-- /.content -->
   </div>
 
-  @endsection
+ @endsection
+  @section('script')
 
+  <script src="{{ asset('js/expense.js') }}"></script>
+  @endsection
